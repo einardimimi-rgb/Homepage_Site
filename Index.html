@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+
+<html lang="it">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>文学 — Tema Ghibli con pioggia leggera</title>
+<style>
+  :root{--paper:#f0e7d5;--paper-2:#eadfc9;--ink:#1b1a19;--moss:#6f8d6a;--wood:#b4875b;--sun:#f1d08b;--fade:17s;--spawn-rate:420ms;--max-kanji:58;--center-font-size:clamp(42px,7.2vw,130px);--subtitle-size:clamp(14px,2.1vw,20px);--bg-font-min:18px;--bg-font-max:64px;--rain-density:.6;--rain-drops:70;--rain-min-speed:6s;--rain-max-speed:9s;--rain-wind:10deg}
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0;color:var(--ink);font-family:ui-serif,"Noto Serif JP","Hiragino Mincho ProN","Yu Mincho","MS Mincho",Georgia,"Times New Roman",serif;overflow:hidden;background:var(--paper)}
+  body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;background:radial-gradient(120% 85% at 50% 10%, rgba(255,255,255,.55) 0%, transparent 60%),radial-gradient(140% 100% at 50% 120%, rgba(0,0,0,.06) 0%, transparent 55%),radial-gradient(100% 100% at 50% 50%, var(--paper) 35%, var(--paper-2) 100%);mix-blend-mode:multiply}
+  body::after{content:"";position:fixed;inset:-2%;pointer-events:none;z-index:0;opacity:.18;background-image:url('data:image/svg+xml;utf8,\
+   <svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160">\
+   <filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" stitchTiles="stitch"/></filter>\
+   <rect width="100%" height="100%" filter="url(%23n)" opacity=".18"/>\
+   </svg>');background-size:240px 240px;mix-blend-mode:multiply;animation:grain 13s steps(6,end) infinite}
+  @keyframes grain{0%{transform:translate(0,0)}20%{transform:translate(-1%,1%)}40%{transform:translate(1%,-1%)}60%{transform:translate(-.5%,.5%)}80%{transform:translate(.7%,-.4%)}100%{transform:translate(0,0)}}
+  .stage{position:relative;width:100%;height:100%;display:grid;place-items:center;isolation:isolate}
+  .bg-kanji-layer{position:absolute;inset:0;overflow:hidden;z-index:1;pointer-events:none;perspective:800px}
+  .kanji{position:absolute;user-select:none;color:var(--ink);opacity:0;white-space:pre;transform-origin:center;animation:life var(--fade) cubic-bezier(.22,.61,.36,1) forwards;will-change:transform,opacity;mix-blend-mode:multiply;text-shadow:0 1px 0 rgba(255,255,255,.2),0 2px 6px rgba(0,0,0,.06);filter:drop-shadow(0 1px 0 rgba(255,255,255,.18))}
+  @keyframes life{0%{opacity:0;transform:translate3d(0,14px,0) scale(.94) rotate(-2deg)}12%{opacity:.25}45%{opacity:.32}70%{opacity:.22;transform:translate3d(0,-6px,0) scale(1.02) rotate(2deg)}100%{opacity:0;transform:translate3d(0,-14px,0) scale(1.045)}}
+  .rain-layer{position:absolute;inset:0;z-index:2;pointer-events:none;overflow:hidden}
+  .drop{position:absolute;top:-12vh;width:1.5px;border-radius:2px;opacity:calc(0.25 * var(--rain-density));background:linear-gradient(to bottom,rgba(255,255,255,0) 0%,rgba(255,255,255,.35) 15%,rgba(27,26,25,.45) 100%);filter:blur(.2px);transform:rotate(var(--rain-wind));animation:fall var(--speed) linear var(--delay) infinite;mix-blend-mode:multiply}
+  @keyframes fall{0%{transform:translate3d(0,-12vh,0) rotate(var(--rain-wind))}100%{transform:translate3d(0,112vh,0) rotate(var(--rain-wind))}}
+  .center{position:relative;z-index:3;display:grid;place-items:center;text-align:center;padding:1.2rem 2rem}
+  .jp{font-size:var(--center-font-size);line-height:1.04;letter-spacing:.03em;font-weight:800;color:var(--ink);position:relative;text-shadow:0 2px 0 rgba(255,255,255,.35),0 10px 24px rgba(0,0,0,.12);animation:breathe 6s ease-in-out infinite}
+  @keyframes breathe{0%,100%{transform:translateZ(0) scale(1)}50%{transform:translateZ(0) scale(1.02)}}
+  .jp::after{content:"";display:inline-block;width:.065em;height:1em;background:var(--ink);margin-left:.08em;vertical-align:-.1em;animation:caret .9s steps(1,end) infinite}
+  @keyframes caret{0%,49%{opacity:1}50%,100%{opacity:0}}
+  .subtitle{margin-top:.6rem;font-size:var(--subtitle-size);letter-spacing:.04em;color:#2a2a2a;opacity:.7;text-shadow:0 1px 0 rgba(255,255,255,.35)}
+  @media (prefers-reduced-motion:reduce){.kanji{animation:none;opacity:.22}.jp::after{display:none}.jp{animation:none}body::after{animation:none}.rain-layer{display:none}}
+  </style>
+<style>
+  /* Menu (slide + fade + overlay) */
+  .site-nav{position:fixed;top:1rem;left:1rem;z-index:1000}
+  .hamburger{display:inline-flex;flex-direction:column;justify-content:center;gap:4px;width:40px;height:40px;padding:8px;border:1px solid transparent;border-radius:8px;background:color-mix(in srgb, currentColor 10%, transparent);color:currentColor;cursor:pointer;-webkit-tap-highlight-color:transparent}
+  .hamburger:focus{outline:2px solid currentColor;outline-offset:2px}
+  .hamburger__bar{display:block;width:100%;height:2px;background:currentColor;border-radius:2px}
+  .site-nav__overlay{position:fixed;inset:0;background:rgba(0,0,0,.12);backdrop-filter:blur(1.5px);opacity:0;visibility:hidden;transition:opacity .22s ease, visibility 0s linear .22s;z-index:999}
+  .site-nav__overlay.is-open{opacity:1;visibility:visible;transition:opacity .22s ease}
+  .site-nav__panel{margin-top:.5rem;min-width:220px;border:1px solid transparent;border-radius:10px;padding:.5rem;background:rgba(0,0,0,.06);backdrop-filter:blur(4px);box-shadow:0 8px 24px rgba(0,0,0,.15);transform:translateY(-8px);opacity:0;visibility:hidden;transition:transform .28s ease, opacity .28s ease, visibility 0s linear .28s}
+  .site-nav__panel.is-open{transform:translateY(0);opacity:1;visibility:visible;transition:transform .28s ease, opacity .28s ease}
+  .site-nav__list{list-style:none;margin:0;padding:0}
+  .site-nav__list li{opacity:0;transform:translateY(-4px);transition:opacity .25s ease, transform .25s ease}
+  .site-nav__panel.is-open .site-nav__list li{opacity:1;transform:translateY(0)}
+  .site-nav__panel.is-open .site-nav__list li:nth-child(1){transition-delay:.05s}
+  .site-nav__panel.is-open .site-nav__list li:nth-child(2){transition-delay:.10s}
+  .site-nav__panel.is-open .site-nav__list li:nth-child(3){transition-delay:.15s}
+  .site-nav__list a{font-weight:400; display:block;padding:.6rem .8rem;border-radius:8px;color:inherit;text-decoration:none}
+  .site-nav__list a:hover,.site-nav__list a:focus{background:color-mix(in srgb, currentColor 12%, transparent)}
+  @media (prefers-color-scheme:dark){.site-nav__panel{background:rgba(255,255,255,.06)}.site-nav__overlay{background:rgba(0,0,0,.22)}}
+  @media (prefers-reduced-motion:reduce){.site-nav__panel,.site-nav__overlay,.site-nav__list li{transition:none;transform:none;opacity:1}}
+  /* Footer */
+  .site-footer{position:fixed;left:0;right:0;bottom:0;z-index:900;display:flex;align-items:center;justify-content:space-between;gap:.8rem;padding:.6rem .9rem;border-top:1px solid currentColor;background:rgba(0,0,0,.05);backdrop-filter:blur(3px);color:currentColor}
+  .site-footer__left,.site-footer__right{display:flex;align-items:center;gap:.8rem;flex-wrap:wrap}
+  .site-footer a{color:inherit;text-decoration:none;border-radius:6px;padding:.15rem .35rem}
+  .site-footer a:hover,.site-footer a:focus{background:color-mix(in srgb, currentColor 12%, transparent)}
+  .site-footer__sep{opacity:.35}
+  @media (prefers-color-scheme: dark){.site-footer{background:rgba(255,255,255,.06)}}
+  @media (max-width:560px){.site-footer{flex-direction:column;align-items:flex-start}}
+  
+/* === Theme toggle (light/dark) ===================================== */
+:root[data-theme="light"], :root:not([data-theme]){ /* default: light */
+  --paper:#f0e7d5; --paper-2:#eadfc9; --ink:#1b1a19;
+}
+:root[data-theme="dark"]{
+  --paper:#151411; --paper-2:#1d1b17; --ink:#efe9dd;
+}
+/* Backgrounds automatically pick up updated variables */
+html, body{ background: var(--paper); color: var(--ink); }
+/* Tweak panel/footer backgrounds slightly for dark */
+:root[data-theme="dark"] .site-nav__panel{ background: rgba(255,255,255,.06); }
+:root[data-theme="dark"] .site-nav__overlay{ background: rgba(0,0,0,.22); }
+:root[data-theme="dark"] .site-footer{ background: rgba(255,255,255,.06); }
+
+/* Toggle button */
+.theme-toggle{display:inline-flex;align-items:center;gap:.4rem;padding:.25rem .5rem;border:1px solid transparent;border-radius:8px;background:color-mix(in srgb, currentColor 8%, transparent);cursor:pointer}
+.theme-toggle svg{width:18px;height:18px;display:block}
+.theme-toggle:focus{outline:2px solid currentColor; outline-offset:2px}
+</style>
+</head>
+<body>
+<div class="site-nav__overlay" hidden="" id="navOverlay"></div>
+<nav aria-label="Menu principale" class="site-nav">
+<button aria-controls="siteMenu" aria-expanded="false" aria-label="Apri menu" class="hamburger" id="hamburgerBtn">
+<span aria-hidden="true" class="hamburger__bar"></span>
+<span aria-hidden="true" class="hamburger__bar"></span>
+<span aria-hidden="true" class="hamburger__bar"></span>
+</button>
+<div class="site-nav__panel" hidden="" id="siteMenu">
+<ul class="site-nav__list" role="menu">
+<li role="none"><a href="perche-questo-sito.html" role="menuitem">Perchè questo sito</a></li>
+<li role="none"><a href="chi-sono.html" role="menuitem">Chi sono</a></li>
+<li role="none"><a href="terza-voce.html" role="menuitem">Terza voce</a></li>
+</ul>
+</div>
+</nav>
+<main aria-label="Pagina tema Ghibli con background di kanji, pioggia leggera e titolo centrale" class="stage">
+<div aria-hidden="true" class="bg-kanji-layer" id="bg-layer"></div>
+<div aria-hidden="true" class="rain-layer" id="rain-layer"></div>
+<section class="center">
+<div aria-live="polite" class="jp" id="typewriter"></div>
+<div class="subtitle">L'angolo di lettura giapponese di Mimì</div>
+</section>
+</main>
+<footer class="site-footer" role="contentinfo">
+<div class="site-footer__left">
+<span>© <span id="year"></span> Mimì</span>
+<span class="site-footer__sep">•</span>
+<a href="perche-questo-sito.html">Perchè questo sito</a>
+<a href="chi-sono.html">Chi sono</a>
+<a href="terza-voce.html">Terza voce</a>
+</div>
+<div class="site-footer__right">
+<button aria-label="Cambia tema" class="theme-toggle" id="themeToggle" type="button">
+<svg aria-hidden="true" fill="currentColor" viewbox="0 0 24 24"><path d="M12 3a1 1 0 0 1 1 1v2a1 1 0 1 1-2 0V4a1 1 0 0 1 1-1zm0 14a4 4 0 1 0 0-8 4 4 0 0 0 0 8zm8-4a1 1 0 0 1-1 1h-2a1 1 0 1 1 0-2h2a1 1 0 0 1 1 1zM7 13a1 1 0 1 1 0-2H5a1 1 0 1 1 0 2h2zm10.95 6.364a1 1 0 0 1-1.414 0l-1.414-1.415a1 1 0 1 1 1.414-1.414l1.414 1.414a1 1 0 0 1 0 1.415zM8.879 7.05A1 1 0 1 1 7.465 5.636L6.05 4.222A1 1 0 0 1 7.465 2.808l1.414 1.414A1 1 0 0 1 8.88 7.05zM4.222 17.95a1 1 0 0 1 1.414-1.414l1.415 1.414a1 1 0 0 1-1.415 1.415L4.222 17.95zm13.314-10.9a1 1 0 0 1 1.415-1.415l1.414 1.415a1 1 0 1 1-1.414 1.414l-1.415-1.414z"></path></svg>
+<span>Theme</span>
+</button>
+<a aria-label="Instagram" href="https://instagram.com/" rel="noopener noreferrer" target="_blank">
+<svg aria-hidden="true" fill="currentColor" height="20" viewbox="0 0 24 24" width="20">
+<path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7zm5 3.5a5.5 5.5 0 1 1 0 11 5.5 5.5 0 0 1 0-11zm0 2a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7zM18 6.5a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"></path>
+</svg>
+</a>
+<a aria-label="GitHub" href="https://github.com/" rel="noopener noreferrer" target="_blank">
+<svg aria-hidden="true" fill="currentColor" height="20" viewbox="0 0 24 24" width="20">
+<path clip-rule="evenodd" d="M12 .5a11.5 11.5 0 0 0-3.637 22.418c.576.106.786-.246.786-.55 0-.27-.01-1.157-.016-2.1-3.2.695-3.875-1.374-3.875-1.374-.524-1.333-1.28-1.687-1.28-1.687-1.045-.714.08-.699.08-.699 1.155.082 1.764 1.186 1.764 1.186 1.028 1.763 2.696 1.254 3.354.958.104-.756.402-1.255.73-1.543-2.555-.291-5.242-1.278-5.242-5.687 0-1.256.45-2.282 1.188-3.087-.12-.29-.515-1.463.113-3.05 0 0 .967-.31 3.17 1.18.92-.257 1.907-.386 2.888-.391.981.005 1.968.134 2.89.39 2.2-1.49 3.166-1.179 3.166-1.179.63 1.587.236 2.76.115 3.05.74.805 1.187 1.831 1.187 3.087 0 4.42-2.693 5.392-5.257 5.678.413.357.78 1.062.78 2.14 0 1.544-.014 2.786-.014 3.166 0 .306.207.661.792.548A11.5 11.5 0 0 0 12 .5Z" fill-rule="evenodd"></path>
+</svg>
+</a>
+</div>
+</footer>
+<script>
+  // TYPEWRITER
+  (function(){const c=["文","学"], el=document.getElementById('typewriter');let i=0;function step(){if(i<=c.length){el.textContent=c.slice(0,i).join('');i++;setTimeout(step,i===1?700:800);}else{setTimeout(()=>{i=0;el.textContent='';setTimeout(step,650);},4200)}}step();})();
+  // BG KANJI
+  (function(){const layer=document.getElementById('bg-layer');const K=["文","学","詩","書","語","言","想","夢","道","和","森","風","花","月","雨","光","静","音","読","知","心","川","山","空","海","時","章","句","章","紙"];const MAX=parseInt(getComputedStyle(document.documentElement).getPropertyValue('--max-kanji'),10)||58;const spawn=parseInt(getComputedStyle(document.documentElement).getPropertyValue('--spawn-rate').trim())||420;const fade=parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--fade'))||17;const pick=a=>a[Math.floor(Math.random()*a.length)];window.addEventListener('mousemove',e=>{const {innerWidth:w,innerHeight:h}=window;const mx=(e.clientX/w-.5), my=(e.clientY/h-.5);layer.style.transform=`translate(${mx*6}px, ${my*6}px)`});function one(){if(!document.body.contains(layer))return;if(layer.childElementCount>=MAX)layer.firstElementChild?.remove();const s=document.createElement('span');s.className='kanji';s.textContent=pick(K);const x=Math.random()*92+4,y=Math.random()*88+6;const styles=getComputedStyle(document.documentElement);const fmin=parseFloat(styles.getPropertyValue('--bg-font-min'))||18;const fmax=parseFloat(styles.getPropertyValue('--bg-font-max'))||64;const size=Math.random()*(fmax-fmin)+fmin;const rot=Math.random()*20-10;const z=Math.random()*120-60;const scale=1+z/600;const dur=fade*(Math.random()*.45+.8);const d=Math.random()*2.2;s.style.left=x+'vw';s.style.top=y+'vh';s.style.fontSize=size+'px';s.style.transform=`translate(-50%, -50%) translateZ(${z}px) scale(${scale}) rotate(${rot}deg)`;s.style.animationDuration=dur+'s';s.style.animationDelay=d+'s';const ink=Math.floor(Math.random()*(28-12)+12);s.style.color=`rgb(${ink},${ink},${ink})`;layer.appendChild(s);setTimeout(()=>s.remove(),(d+dur)*1000+200)}const t=setInterval(one,spawn);for(let i=0;i<14;i++)one();window.addEventListener('beforeunload',()=>clearInterval(t));})();
+  // RAIN
+  (function(){const layer=document.getElementById('rain-layer');const root=getComputedStyle(document.documentElement);const drops=parseInt(root.getPropertyValue('--rain-drops'))||70;const minS=parseFloat(root.getPropertyValue('--rain-min-speed'))||6;const maxS=parseFloat(root.getPropertyValue('--rain-max-speed'))||9;const wind=root.getPropertyValue('--rain-wind')||'10deg';function drop(){const el=document.createElement('i');el.className='drop';const x=Math.random()*100,h=Math.random()*14+8;const delay=(Math.random()*3).toFixed(2)+'s';const speed=(Math.random()*(maxS-minS)+minS).toFixed(2)+'s';el.style.left=x+'vw';el.style.height=h+'vh';el.style.setProperty('--delay',delay);el.style.setProperty('--speed',speed);el.style.setProperty('--rain-wind',wind);el.style.opacity=(0.15+Math.random()*0.15)*(parseFloat(root.getPropertyValue('--rain-density'))||0.6);layer.appendChild(el);const total=(parseFloat(speed)+parseFloat(delay))*1000;setTimeout(()=>{el.remove();if(document.body.contains(layer))drop();},total)}for(let i=0;i<drops;i++)setTimeout(drop,Math.random()*2000);window.addEventListener('beforeunload',()=>{layer.innerHTML=''});} )();
+  // NAV
+  (function(){
+    const btn=document.getElementById('hamburgerBtn');
+    const panel=document.getElementById('siteMenu');
+    const overlay=document.getElementById('navOverlay');
+    let anim=false;
+    function open(){ if(anim) return; anim=true; panel.hidden=false; overlay.hidden=false; requestAnimationFrame(()=>{ panel.classList.add('is-open'); overlay.classList.add('is-open'); btn.setAttribute('aria-expanded','true'); const first=panel.querySelector('a'); first&&first.focus(); }); }
+    function close(){ if(anim) return; anim=true; panel.classList.remove('is-open'); overlay.classList.remove('is-open'); btn.setAttribute('aria-expanded','false'); }
+    function onEnd(e){ if(e.target!==panel) return; if(!panel.classList.contains('is-open')){ panel.hidden=true; overlay.hidden=true; btn.focus(); } anim=false; }
+    function toggle(){ (btn.getAttribute('aria-expanded')==='true')?close():open(); }
+    function onDoc(e){ if(!panel.hidden && !panel.contains(e.target) && e.target!==btn){ close(); } }
+    function onKey(e){ if(e.key==='Escape'){ e.preventDefault(); close(); } }
+    btn.addEventListener('click',toggle); btn.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); toggle(); }});
+    document.addEventListener('click',onDoc); document.addEventListener('keydown',onKey);
+    panel.addEventListener('transitionend',onEnd); overlay.addEventListener('click',close);
+  })();
+  // Footer: anno corrente
+  (function(){ const y=document.getElementById('year'); if(y){ y.textContent = new Date().getFullYear(); } })();
+  </script>
+<script>
+  // Theme: init from localStorage or system, and toggle
+  (function(){
+    const root = document.documentElement;
+    const storageKey = 'theme-preference';
+    const btn = document.getElementById('themeToggle');
+
+    function getPreference(){
+      const stored = localStorage.getItem(storageKey);
+      if(stored) return stored; // 'light' | 'dark'
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+    function applyTheme(theme){ root.setAttribute('data-theme', theme); }
+
+    let current = getPreference();
+    applyTheme(current);
+
+    if(btn){
+      btn.addEventListener('click', ()=>{
+        current = (current === 'dark') ? 'light' : 'dark';
+        applyTheme(current);
+        localStorage.setItem(storageKey, current);
+      });
+    }
+
+    // Update if system preference changes (when user has no explicit choice)
+    try{
+      const mql = window.matchMedia('(prefers-color-scheme: dark)');
+      mql.addEventListener('change', (e)=>{
+        if(!localStorage.getItem(storageKey)){
+          current = e.matches ? 'dark' : 'light';
+          applyTheme(current);
+        }
+      });
+    }catch(err){}
+  })();
+</script></body>
+</html>
