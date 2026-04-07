@@ -60,13 +60,37 @@ html, body{ background: var(--paper); color: var(--ink); }
 .theme-toggle svg{width:18px;height:18px;display:block}
 .theme-toggle:focus{outline:2px solid currentColor; outline-offset:2px}
 </style>
+  <style>
+  .text-block {
+    max-width: 700px;
+    margin: 3rem auto;
+    padding: 0 1rem;
+    text-align: center;
+  }
+
+  .text-block__title {
+    margin-bottom: 1rem;
+    font-size: 2rem;
+    font-weight: 600;
+  }
+
+  .text-block__description {
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: #475569;
+  }
+</style>
 </head>
 <body>
   <div class="container">
-    <header>
-      <h1>Nessuno<i>in pillole</i></h1>
-      <p>Introduzione alla filosofia giapponese applicata al vivere quotidiano. Propongo questa sezione dopo acuta ricerca che nasce dalla necessità di ritrovare se stessi imparando a gestire il proprio spazio nel vivere di tutti i giorni senza farsi trascinare dalla frenesia e la pressione ci sottopongono.</p>
-    </header>
+    <section class="text-block">
+  <h1 class="text-block__title">Il tempo che scorre</h1>
+  <p class="text-block__description">
+    Il tempo non è solo una successione di istanti, ma un flusso continuo
+    che attraversa ogni cosa. Scorre silenzioso, lasciando tracce
+    invisibili nel paesaggio e nella memoria.
+  </p>
+</section>
 <footer class="site-footer" role="contentinfo">
 <div class="site-footer__left">
 <span>© <span id="year"></span> Mimì</span>
