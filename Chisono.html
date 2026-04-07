@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Nuova pagina</title>
+
+  <!-- ===== STILI ORIGINALI (INVARIATI) ===== -->
+  <!-- INCOLLA QUI TUTTI GLI <style> DEL FILE CHISONO.HTML -->
+  <!-- (non li ripeto per evitare errori: vanno copiati identici) -->
+
+  <!-- ===== STILE AGGIUNTIVO (SOLO TITOLO + DESCRIZIONE) ===== -->
+  <style>
+    /* Titolo con font giapponese */
+    .page-title {
+      font-family:
+        "Noto Serif JP",
+        "Hiragino Mincho ProN",
+        "Yu Mincho",
+        "MS Mincho",
+        Georgia,
+        "Times New Roman",
+        serif;
+
+      font-size: clamp(42px, 7vw, 120px);
+      font-weight: 800;
+      margin: 0;
+      letter-spacing: 0.04em;
+      color: var(--ink);
+      text-shadow:
+        0 2px 0 rgba(255,255,255,.35),
+        0 10px 24px rgba(0,0,0,.12);
+    }
+
+    /* Descrizione (font normale del sito) */
+    .page-description {
+      margin-top: 1rem;
+      max-width: 720px;
+      font-size: clamp(16px, 2.1vw, 22px);
+      line-height: 1.6;
+      opacity: .75;
+      color: var(--ink);
+      text-shadow: 0 1px 0 rgba(255,255,255,.35);
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- ===== MENU (INVARIATO) ===== -->
+<div class="site-nav__overlay" hidden id="navOverlay"></div>
+
+<nav class="site-nav" aria-label="Menu principale">
+  <button class="hamburger" id="hamburgerBtn"
+          aria-label="Apri menu"
+          aria-controls="siteMenu"
+          aria-expanded="false">
+    <span class="hamburger__bar"></span>
+    <span class="hamburger__bar"></span>
+    <span class="hamburger__bar"></span>
+  </button>
+
+  <div class="site-nav__panel" hidden id="siteMenu">
+    <ul class="site-nav__list" role="menu">
+      <li role="none"><a href="perche-questo-sito.html" role="menuitem">Perché questo sito</a></li>
+      <li role="none"><a href="chi-sono.html" role="menuitem">Chi sono</a></li>
+      <li role="none"><a href="https://einardimimi-rgb.github.io/pagina-Giappone/" role="menuitem">Scopri il sito</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ===== CONTENUTO CENTRALE ===== -->
+<main class="stage" aria-label="Pagina con titolo e descrizione centrati">
+
+  <div class="bg-kanji-layer" aria-hidden="true" id="bg-layer"></div>
+  <div class="rain-layer" aria-hidden="true" id="rain-layer"></div>
+
+  <section class="center">
+    <h1 class="page-title">文学</h1>
+    <p class="page-description">
+      Questo è uno spazio dedicato alle parole, al pensiero e alla lettura.
+      Un luogo calmo, ispirato, dove fermarsi un momento.
+    </p>
+  </section>
+
+</main>
+
+<!-- ===== FOOTER (INVARIATO) ===== -->
+<footer class="site-footer" role="contentinfo">
+  <div class="site-footer__left">
+    <span>© <span id="year"></span> Mimì</span>
+    <span class="site-footer__sep">•</span>
+    <a href="perche-questo-sito.html">Perché questo sito</a>
+    <a href="chi-sono.html">Chi sono</a>
+    <a href="terza-voce.html">Scopri il sito</a>
+  </div>
+
+  <div class="site-footer__right">
+    <button class="theme-toggle" id="themeToggle" aria-label="Cambia tema">
+      <span>Theme</span>
+    </button>
+  </div>
+</footer>
+
+<!-- ===== SCRIPT ORIGINALI (INVARIATI) ===== -->
+<!-- INCOLLA QUI TUTTI GLI <script> DEL FILE CHISONO.HTML -->
+
+</body>
+</html>
